@@ -12,11 +12,16 @@ const PokemonCard = ({
 }: PokemonCardProps): ReactElement => {
   const renderLogo = (): ReactElement => {
     return (
-      <div className="bg-gray-200 w-full rounded-t-2xl">
+      <div className="bg-gray-200 w-full rounded-t-2xl relative">
         <img
-          src={sprites.front_shiny || ""}
+          src={sprites.front_default || ""}
           alt={`a-image-of-${name}`}
           className="object-contain w-[300px]"
+        />
+        <img
+          src={sprites.front_shiny || ""}
+          alt={`a-image-of-${name}-small`}
+          className="absolute bottom-2 right-2 object-contain w-[100px] h-[100px] bg-white rounded-md"
         />
       </div>
     );

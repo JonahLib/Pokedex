@@ -36,7 +36,7 @@ type PokemonType = {
   };
 };
 
-type PokemonMove = {
+export type PokemonMove = {
   move: {
     name: string;
     url: string;
