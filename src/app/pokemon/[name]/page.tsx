@@ -36,7 +36,7 @@ const PokemonPage = () => {
       back_shiny: "",
     },
     stats = [],
-    moves,
+    moves = [],
   }: Partial<PokemonData["pokemon"]> = data?.pokemon ?? {};
 
   const renderBackButton = () => {
