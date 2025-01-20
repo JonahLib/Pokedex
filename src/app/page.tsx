@@ -2,6 +2,7 @@
 
 import Button from "@src/components/button";
 import Card from "@src/components/card";
+import Page from "@src/components/page";
 import { useQuery } from "@src/hooks/use_query";
 import { GET_ALL_POKEMON } from "@src/querys/pokemon";
 import { Pokemon, PokemonList } from "@src/typings/pokemon";
@@ -10,6 +11,7 @@ import { ReactElement, useState } from "react";
 
 export default function Home(): ReactElement {
   const [offset, setOffset] = useState(0);
+
   const { data, loading, error } = useQuery<
     { pokemons: PokemonList },
     { limit: number; offset: number }
@@ -63,14 +65,16 @@ export default function Home(): ReactElement {
   };
 
   return (
-    <main className="w-full flex flex-col gap-6">
-      <ul className="pt-4 flex flex-col gap-8 items-center justify-between sm:flex-row sm:flex-wrap sm:max-w-[700px] lg:max-w-[1000px] m-auto">
-        {renderCards()}
-      </ul>
-      <div className="w-full flex justify-center items-center gap-6 mb-4 flex-col-reverse sm:flex-row">
-        {renderBackButton()}
-        {renderNextButton()}
-      </div>
-    </main>
+    <Page>
+      <main className="w-full flex flex-col gap-6">
+        <ul className="pt-4 flex flex-col gap-8 items-center justify-between sm:flex-row sm:flex-wrap sm:max-w-[700px] lg:max-w-[1000px] m-auto">
+          {renderCards()}
+        </ul>
+        <div className="w-full flex justify-center items-center gap-6 mb-4 flex-col-reverse sm:flex-row">
+          {renderBackButton()}
+          {renderNextButton()}
+        </div>
+      </main>
+    </Page>
   );
 }
