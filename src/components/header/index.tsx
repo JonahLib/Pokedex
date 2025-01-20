@@ -3,8 +3,9 @@
 import clsx from "clsx";
 import Image from "next/image";
 import { ReactElement, useEffect, useState } from "react";
+import { HeaderProps } from "./types";
 
-const Header = ({}): ReactElement => {
+const Header = ({ openSearch }: HeaderProps): ReactElement => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isScrollingDown, setIsScrollingDown] = useState(false);
@@ -71,7 +72,7 @@ const Header = ({}): ReactElement => {
 
   const renderMobileSearch = (): ReactElement => {
     return (
-      <button className="flex items-center justify-center">
+      <button className="flex items-center justify-center" onClick={openSearch}>
         <Image
           src="/search.svg"
           alt="mobile-search-icon"
@@ -86,7 +87,7 @@ const Header = ({}): ReactElement => {
   return (
     <header
       className={clsx(
-        "fixed top-0 left-0 right-0 flex justify-between items-center bg-red-500 w-full h-20 sm:h-24 lg:h-28 border-b-4 border-black px-8 lg:px-6 sm:px-4 transition-transform duration-300 ease-in-out z-[999]",
+        "fixed top-0 left-0 right-0 flex justify-between items-center bg-red-500 w-full h-20 sm:h-24 lg:h-28 border-b-4 border-black px-8 lg:px-6 sm:px-4 transition-transform duration-300 ease-in-out z-[99]",
         isVisible ? "transform translate-y-0" : "transform -translate-y-full"
       )}
     >

@@ -2,6 +2,7 @@
 
 import Button from "@src/components/button";
 import MovesCard from "@src/components/moves_card";
+import Page from "@src/components/page";
 import PokemonCard from "@src/components/pokemon_card";
 import { getNextRoute } from "@src/helpers/routes";
 import { useQuery } from "@src/hooks/use_query";
@@ -51,19 +52,21 @@ const PokemonPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-6">
-      <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-        <PokemonCard
-          order={order}
-          name={pokemonName}
-          types={types}
-          sprites={sprites}
-          stats={stats}
-        />
-        <MovesCard moves={moves} />
+    <Page>
+      <div className="flex flex-col justify-center items-center gap-6">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <PokemonCard
+            order={order}
+            name={pokemonName}
+            types={types}
+            sprites={sprites}
+            stats={stats}
+          />
+          <MovesCard moves={moves} />
+        </div>
+        {renderBackButton()}
       </div>
-      {renderBackButton()}
-    </div>
+    </Page>
   );
 };
 
