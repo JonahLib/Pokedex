@@ -1,5 +1,5 @@
 export const ROUTES: Record<string, string> = {
   home: "/",
   login: "/login",
-  pokemon: "/pokemon/:order",
+  pokemon: "/pokemon/:name",
 };
