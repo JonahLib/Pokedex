@@ -2,7 +2,7 @@ import { POKEMON_TYPES } from "@constants/pokemon_types";
 import { TypeProps } from "./types";
 import clsx from "clsx";
 
-const Type = ({ type }: TypeProps) => {
+const PokemonType = ({ type }: TypeProps) => {
   return (
     <div
       className={clsx(
@@ -15,4 +15,4 @@ const Type = ({ type }: TypeProps) => {
   );
 };
 
-export default Type;
+export default PokemonType;

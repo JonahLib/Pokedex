@@ -10,14 +10,14 @@ const Card = ({ order, name }: CardProps) => {
         <img
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${order}.png`}
           alt={`a-image-of-${name}`}
-          className="w-[300px] h-[150px]"
+          className="object-contain w-[150px] m-auto"
         />
       </div>
     );
   };
 
   const renderOrder = (): ReactElement => {
-    return <p className="font-bold">{`#${order}`}</p>;
+    return <p className="font-bold">{`#${order + 1}`}</p>;
   };
 
   const renderName = () => {
@@ -27,7 +27,7 @@ const Card = ({ order, name }: CardProps) => {
   return (
     <Link
       className="flex flex-col gap-2 w-[300px] h-[200px] rounded-2xl shadow-2xl transition-transform ease-in-out hover:scale-105"
-      href={getNextRoute("pokemon", { order: name })}
+      href={getNextRoute("pokemon", { name: name })}
     >
       {renderLogo()}
       <div className="flex justify-between px-3">
