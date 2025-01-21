@@ -4,6 +4,8 @@ import clsx from "clsx";
 import Image from "next/image";
 import { ReactElement, useEffect, useState } from "react";
 import { HeaderProps } from "./types";
+import Link from "next/link";
+import { getNextRoute } from "@src/helpers/routes";
 
 const Header = ({ openSearch }: HeaderProps): ReactElement => {
   const [isVisible, setIsVisible] = useState(true);
@@ -60,13 +62,15 @@ const Header = ({ openSearch }: HeaderProps): ReactElement => {
 
   const renderLogo = (): ReactElement => {
     return (
-      <Image
-        src="/pokedex.png"
-        alt="pokedex-logo"
-        width={200}
-        height={200}
-        className="w-20 h-auto sm:w-28 sm:h-auto lg:w-32"
-      />
+      <Link href={getNextRoute("home")}>
+        <Image
+          src="/pokedex.png"
+          alt="pokedex-logo"
+          width={200}
+          height={200}
+          className="w-20 h-auto sm:w-28 sm:h-auto lg:w-32"
+        />
+      </Link>
     );
   };
 

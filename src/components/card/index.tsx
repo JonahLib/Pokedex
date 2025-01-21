@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 import { CardProps } from "./types";
 import Link from "next/link";
 import { getNextRoute } from "@src/helpers/routes";
+import { capitaliseString } from "@src/helpers/capitalise_string";
 
 const Card = ({ order, name }: CardProps) => {
   const renderLogo = (): ReactElement => {
@@ -17,11 +18,11 @@ const Card = ({ order, name }: CardProps) => {
   };
 
   const renderOrder = (): ReactElement => {
-    return <p className="font-bold">{`#${order + 1}`}</p>;
+    return <p className="font-bold">{`#${order}`}</p>;
   };
 
   const renderName = () => {
-    return <h1 className="font-extrabold">{name}</h1>;
+    return <h1 className="font-extrabold">{capitaliseString(name)}</h1>;
   };
 
   return (

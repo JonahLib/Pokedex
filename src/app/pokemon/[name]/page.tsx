@@ -20,8 +20,6 @@ const PokemonPage = () => {
     }
   );
 
-  console.log(data);
-
   if (loading) return <p>...loading</p>;
 
   if (error) return <p>{`Error: ${error}`}</p>;
