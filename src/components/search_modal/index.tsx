@@ -1,18 +1,18 @@
-import { NullableReactElement } from "@src/typings/utils";
-import { SearchModalProps } from "./types";
+import { Nullable, NullableReactElement } from "@src/typings/utils";
+import { filteredPokemon, SearchModalProps } from "./types";
 import { GET_ALL_POKEMON } from "@src/querys/pokemon";
 import { PokemonList } from "@src/typings/pokemon";
 import { useQuery } from "@apollo/client";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import SearchCard from "@components/search_card";
 
 const SearchModal = ({
   isOpen,
   onClose,
 }: SearchModalProps): NullableReactElement => {
-  const [search, setSearch] = useState("");
-
-  console.log(search);
+  const [search, setSearch] = useState("d");
+  const [filteredPokemon, setFilteredPokemon] =
+    useState<Nullable<filteredPokemon[]>>(null);
 
   const { data, loading, error } = useQuery<
     { pokemons: PokemonList },
@@ -20,6 +20,20 @@ const SearchModal = ({
   >(GET_ALL_POKEMON, {
     variables: { limit: 801, offset: 0 },
   });
+
+  useEffect(() => {
+    if (!loading && search !== "" && data) {
+      const pokemons = data.pokemons.results;
+
+      const sortPokemon = pokemons
+        .map((pokemon, index) => ({ ...pokemon, originalIndex: index }))
+        .filter((pokemon) => {
+          return pokemon.name.includes(search);
+        });
+
+      setFilteredPokemon(sortPokemon);
+    }
+  }, [data, loading, search]);
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -29,23 +43,16 @@ const SearchModal = ({
     e.stopPropagation();
   };
 
-  console.log(data);
-
   if (!isOpen) return null;
 
   const renderSearchCard = () => {
-    if (loading || search === "" || !data) return null;
+    if (!filteredPokemon) return null;
 
-    const pokemons = data.pokemons.results;
-
-    const filteredPokemons = pokemons
-      .map((pokemon, index) => ({ ...pokemon, originalIndex: index }))
-      .filter((pokemon) => {
-        return pokemon.name.includes(search);
-      });
-
-    return filteredPokemons.map(({ name, originalIndex }) => (
-      <li className="w-full max-w-[700px]" key={`${name}-${originalIndex}`}>
+    return filteredPokemon.map(({ name, originalIndex }) => (
+      <li
+        className="w-full max-w-[700px] z-[100]"
+        key={`${name}-${originalIndex}`}
+      >
         <SearchCard name={name} order={originalIndex + 1} />
       </li>
     ));

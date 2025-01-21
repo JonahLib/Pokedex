@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 import { CardProps } from "../card/types";
 import Link from "next/link";
 import { getNextRoute } from "@src/helpers/routes";
+import { capitaliseString } from "@src/helpers/capitalise_string";
 
 const SearchCard = ({ order, name }: CardProps) => {
   const renderLogo = (): ReactElement => {
@@ -19,7 +20,7 @@ const SearchCard = ({ order, name }: CardProps) => {
   };
 
   const renderName = (): ReactElement => {
-    return <h1 className="font-extrabold">{name}</h1>;
+    return <h1 className="font-extrabold">{capitaliseString(name)}</h1>;
   };
 
   return (

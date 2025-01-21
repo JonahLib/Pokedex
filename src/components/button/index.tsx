@@ -23,7 +23,7 @@ const Button = ({
 
   if (link) {
     return (
-      <Link href={link} passHref className={buttonClass} target="_blank">
+      <Link href={link} passHref className={buttonClass}>
         {children}
       </Link>
     );

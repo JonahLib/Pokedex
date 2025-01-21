@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 import StatBar from "../stat_bar";
 import { PokemonCardProps } from "./types";
 import PokemonType from "../type";
+import { capitaliseString } from "@src/helpers/capitalise_string";
 
 const PokemonCard = ({
   name,
@@ -32,7 +33,7 @@ const PokemonCard = ({
   };
 
   const renderName = (): ReactElement => {
-    return <h1 className="font-extrabold">{name}</h1>;
+    return <h1 className="font-extrabold">{capitaliseString(name)}</h1>;
   };
 
   const renderTypes = (): ReactElement[] => {

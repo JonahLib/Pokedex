@@ -10,13 +10,13 @@ import { NullableReactElement } from "@src/typings/utils";
 import { ReactElement, useState } from "react";
 
 export default function Home(): ReactElement {
-  const [offset, setOffset] = useState(0);
+  const [queryOffset, setOffset] = useState(0);
 
   const { data, loading, error } = useQuery<
     { pokemons: PokemonList },
     { limit: number; offset: number }
   >(GET_ALL_POKEMON, {
-    variables: { limit: 24, offset },
+    variables: { limit: 24, offset: queryOffset },
   });
 
   if (loading || !data) return <p>Loading...</p>;
@@ -28,20 +28,20 @@ export default function Home(): ReactElement {
     return pokemons.map((pokemon, index: number) => {
       return (
         <li key={index} className="w-[300px]">
-          <Card name={pokemon?.name} order={offset + index + 1} />
+          <Card name={pokemon?.name} order={queryOffset + index + 1} />
         </li>
       );
     });
   };
 
   const renderNextButton = (): NullableReactElement => {
-    if (offset + 24 >= data.pokemons.count) return null;
+    if (queryOffset + 24 >= data.pokemons.count) return null;
 
     return (
       <Button
         className="w-full max-w-[350px]"
         onClick={() => {
-          setOffset(offset + 24);
+          setOffset(queryOffset + 24);
         }}
       >
         Load More
@@ -50,13 +50,13 @@ export default function Home(): ReactElement {
   };
 
   const renderBackButton = (): NullableReactElement => {
-    if (offset === 0) return null;
+    if (queryOffset === 0) return null;
     return (
       <Button
         theme="secondary"
         className="w-full max-w-[350px]"
         onClick={() => {
-          setOffset(offset - 24);
+          setOffset(queryOffset - 24);
         }}
       >
         Back

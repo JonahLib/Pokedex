@@ -5,7 +5,8 @@ const isExternalRoute = (route: string): boolean => route.includes("http");
 
 export const getNextRoute = (
   routeKey: string,
-  params?: Partial<Record<string, string | string[]>>
+  params?: Partial<Record<string, string | string[]>>,
+  query?: Record<string, string>
 ) => {
   const route = ROUTES[routeKey];
 
@@ -13,5 +14,12 @@ export const getNextRoute = (
 
   if (isExternalRoute(route)) return route;
 
-  return compile(route)(params);
+  const compiledRoute = compile(route)(params);
+
+  if (query) {
+    const queryString = new URLSearchParams(query).toString();
+    return `${compiledRoute}?${queryString}`;
+  }
+
+  return compiledRoute;
 };
