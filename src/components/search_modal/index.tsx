@@ -3,16 +3,23 @@ import { filteredPokemon, SearchModalProps } from "./types";
 import { GET_ALL_POKEMON } from "@src/querys/pokemon";
 import { PokemonList } from "@src/typings/pokemon";
 import { useQuery } from "@apollo/client";
-import { ChangeEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import SearchCard from "@components/search_card";
 
 const SearchModal = ({
-  isOpen,
+  isOpen = false,
   onClose,
 }: SearchModalProps): NullableReactElement => {
   const [search, setSearch] = useState("");
-  const [filteredPokemon, setFilteredPokemon] =
-    useState<Nullable<filteredPokemon[]>>(null);
+
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const { data, loading, error } = useQuery<
     { pokemons: PokemonList },
@@ -21,34 +28,37 @@ const SearchModal = ({
     variables: { limit: 801, offset: 0 },
   });
 
-  useEffect(() => {
-    if (!loading && search !== "" && data) {
-      const pokemons = data.pokemons.results;
-
-      const sortPokemon = pokemons
-        .map((pokemon, index) => ({ ...pokemon, originalIndex: index }))
-        .filter((pokemon) => {
-          return pokemon.name.includes(search);
-        });
-
-      setFilteredPokemon(sortPokemon);
-    }
+  const filteredPokemonMemo = useMemo<Nullable<filteredPokemon[]>>(() => {
+    if (loading || search === "" || !data) return null;
+    const pokemons = data.pokemons.results;
+    return pokemons
+      .map((pokemon, index) => ({ ...pokemon, originalIndex: index }))
+      .filter((pokemon) => pokemon.name.includes(search));
   }, [data, loading, search]);
 
-  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
+  useEffect(() => {
+    if (isOpen) {
+      searchInputRef.current?.focus();
+    }
+  }, [isOpen]);
 
-  const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
-    e.stopPropagation();
-  };
+  const onInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  }, []);
+
+  const handleInputClick = useCallback(
+    (e: React.MouseEvent<HTMLInputElement>) => {
+      e.stopPropagation();
+    },
+    []
+  );
 
   if (!isOpen) return null;
 
   const renderSearchCard = () => {
-    if (!filteredPokemon) return null;
+    if (!filteredPokemonMemo) return null;
 
-    return filteredPokemon.map(({ name, originalIndex }) => (
+    return filteredPokemonMemo.map(({ name, originalIndex }) => (
       <li
         className="w-full max-w-[700px] z-[100]"
         key={`${name}-${originalIndex}`}
@@ -71,6 +81,7 @@ const SearchModal = ({
         value={search}
         onChange={(e) => onInputChange(e)}
         onClick={handleInputClick}
+        ref={searchInputRef}
       />
       <ul
         className="w-full flex flex-col items-center gap-2 overflow-y-auto"
