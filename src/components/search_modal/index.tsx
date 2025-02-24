@@ -18,8 +18,6 @@ const SearchModal = ({
   onClose,
 }: SearchModalProps): NullableReactElement => {
   const [search, setSearch] = useState("");
-  const [filteredPokemon, setFilteredPokemon] =
-    useState<Nullable<filteredPokemon[]>>(null);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
