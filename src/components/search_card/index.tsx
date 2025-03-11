@@ -16,7 +16,7 @@ const SearchCard = ({ order, name }: CardProps) => {
   };
 
   const renderOrder = (): ReactElement => {
-    return <p className="font-bold pr-4">{`#${order + 1}`}</p>;
+    return <p className="font-bold pr-4">{`#${order}`}</p>;
   };
 
   const renderName = (): ReactElement => {

@@ -31,9 +31,13 @@ const SearchModal = ({
   const filteredPokemonMemo = useMemo<Nullable<filteredPokemon[]>>(() => {
     if (loading || search === "" || !data) return null;
     const pokemons = data.pokemons.results;
+
     return pokemons
-      .map((pokemon, index) => ({ ...pokemon, originalIndex: index }))
-      .filter((pokemon) => pokemon.name.includes(search));
+      .map((pokemon, index) => ({
+        ...pokemon,
+        originalIndex: index + 1,
+      }))
+      .filter((pokemon) => pokemon.name.includes(search.toLowerCase()));
   }, [data, loading, search]);
 
   useEffect(() => {
@@ -63,7 +67,7 @@ const SearchModal = ({
         className="w-full max-w-[700px] z-[100]"
         key={`${name}-${originalIndex}`}
       >
-        <SearchCard name={name} order={originalIndex + 1} />
+        <SearchCard name={name} order={originalIndex} />
       </li>
     ));
   };
