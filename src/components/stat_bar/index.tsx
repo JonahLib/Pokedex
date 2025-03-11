@@ -13,12 +13,13 @@ const StatBar = ({ stat, baseStat }: StatBarProps): ReactElement => {
   };
 
   const renderStatBar = (): ReactElement => {
-    const widthPercentage = (baseStat / MAX_STATS[stat]) * 100;
+    const widthPercentage = (baseStat / MAX_STATS[stat]) * 150;
+
     return (
       <div className="w-full">
         <div
-          className="max-w-[120px] h-5 bg-cyan-400 rounded-md"
-          style={{ width: `${widthPercentage}%` }}
+          className="h-5 bg-cyan-400 rounded-md"
+          style={{ width: `${widthPercentage}px` }}
         />
       </div>
     );
